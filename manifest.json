@@ -1,0 +1,39 @@
+{
+	"name": "Blogmesh",
+	"version": "0.1",
+	"description": "Adds a Blogmesh follow button to your browser.",
+	"permissions": [
+		"declarativeContent",
+		"storage",
+		"activeTab",
+		"background",
+		"tabs"
+	],
+	"background": {
+		"scripts": ["sha512.min.js", "background.js"],
+		"persistent": false
+	},
+	"page_action": {
+		"default_popup": "popup.html",
+		"default_icon": {
+			"16": "images/blogmesh16.png",
+			"32": "images/blogmesh32.png",
+			"48": "images/blogmesh48.png",
+			"128": "images/blogmesh128.png"
+		}
+	},
+	 "content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["contentScript.js"]
+		}
+	],
+	"options_page": "options.html",
+	"icons": {
+		"16": "images/blogmesh16.png",
+		"32": "images/blogmesh32.png",
+		"48": "images/blogmesh48.png",
+		"128": "images/blogmesh128.png"
+	},
+	"manifest_version": 2
+}

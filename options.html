@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Blogmesh options</title>
+		<style>
+			body {
+				padding: 3em 4em;
+				font-family: sans-serif;
+				font-size: 16px;
+			}
+			p {
+				margin: 0 0 1em 0;
+			}
+			input {
+				font-family: sans-serif;
+				font-size: 16px;
+			}
+			input[type="text"] {
+				padding: 0.25em 0.5em;
+			}
+		</style>
+	</head>
+	<body>
+
+		<h1>Blogmesh options</h1>
+
+		<p>
+			<label for="api-url">API URL</label><br />
+			<input type="text" name="api-url" id="api-url" size="60" />
+		</p>
+		<p>
+			<label for="api-url">API Secret</label><br />
+			<input type="text" name="api-key" id="api-key" size="60" />
+		</p>
+
+		<div id="status"></div>
+		<button id="save">Save</button>
+
+		<script src="options.js"></script>
+
+	</body>
+
+</html>

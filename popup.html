@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body {
+				min-width: 320px;
+				min-height: 100px;
+				margin: 0;
+				padding: 1em;
+				font-family: sans-serif;
+				font-size: 16px;
+				color: #444;
+			}
+			.hidden {
+				/*display: none !important;*/
+			}
+			img.blogmesh-logo {
+				width: 64px;
+				height: auto;
+				/*float: left;*/
+				display: inline-block;
+				margin: 0 10px 10px 0;
+			}
+			h1 {
+				font-size: 1.5em;
+				margin: 0 0 0.5em 0;
+			}
+			.info {
+				margin-bottom: 1em;
+			}
+			.info span {
+				display: block;
+				padding: 0.25em 0;
+			}
+			button {
+				display: inline-block;
+				font-family: sans-serif;
+				font-size: 16px;
+				padding: 0.4em 1.5em;
+				margin-right: 10px;
+				background-color: #09f;
+				border: none;
+				border-radius: 4px;
+				color: #fff !important;
+				font-weight: bold;
+			}
+			button.subscribed {
+				background-color: #f90;
+			}
+			button:disabled {
+				background-color: #aaa;
+			}
+		</style>
+	</head>
+	<body>
+		<img src="images/blogmesh128.png" alt="Blogmesh logo" class="blogmesh-logo" />
+		<h1>Blogmesh</h1>
+		<div class="info">
+			<span id="name" class="hidden"></span>
+			<span id="message" class="hidden"></span>
+			<!-- <span id="home_url" class="hidden"></span> -->
+			<!-- <span id="feed_url" class="hidden"></span> -->
+		</div>
+		<button id="follow" disabled="disabled">Follow</button>
+		<button id="unfollow" style="display: none;">Unfollow</button>
+		<script src="sha512.min.js"></script>
+		<script src="jquery-3.3.1.min.js"></script>
+		<script src="popup.js"></script>
+	</body>
+</html>
