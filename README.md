@@ -21,6 +21,6 @@ To install this extension, please follow these steps.
 2. In Chrome, go to chrome://extensions
 3. In the top right corner, enable "developer mode"
 4. Click the "Load unpacked extension..." button
-5. Select the extension's folder you clones in step 1
+5. Select the extension's folder you cloned in step 1
 
 Click the little Blogmesh logo when you're on a Blogmesh site to follow that site.
