@@ -17,13 +17,17 @@ function updateInfo( info ){
 		return;
 	}
 
-	if( info.name ){
-		$('#name').show().html( info.name );
-	}
+	// display the site's name
+	//$('#name').show().html( info.name );
 
 	if( info.feed_url ){
 		$('#follow').removeAttr('disabled'); //.disabled = false;
 		$('#message').html('This is a Blogmesh site!');
+		/*feed_url = info.feed_url;*/
+	} else if( info['application/rss+xml'] ){
+		$('#follow').removeAttr('disabled'); //.disabled = false;
+		$('#message').html('This site offers an RSS feed!');
+		info.feed_url = info['application/rss+xml'];
 	}
 
 	// check if we're currently subscribed to this feed
@@ -52,6 +56,7 @@ $('#unfollow').click( function(e){
 
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
+		console.log(request);
 		if( request.subscribed == true ){
 			$('#follow').hide();
 			$('#unfollow').show();

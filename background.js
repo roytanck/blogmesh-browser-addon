@@ -33,7 +33,6 @@ chrome.runtime.onMessage.addListener(
 
 			case 'content_blogmesh_info':
 				if( request.blogmesh_info ){
-					console.log( request );
 					if( request.blogmesh_info ){
 						console.log( 'Blogmesh info found.' );
 					}
@@ -61,7 +60,7 @@ chrome.runtime.onMessage.addListener(
 				break;
 
 			case 'blogmesh_check_subscribed':
-				console.log( request.feed_url );
+				console.log( 'Checking if subscribed to: ' + request.feed_url );
 				blogmeshGetFeeds();
 				sendResponse( { farewell: 'okay' } );
 				break;
@@ -173,9 +172,11 @@ var blogmeshGetFeeds = function(){
 				if( httpRequest.status === 200 ){
 					blogmesh_feeds = JSON.parse( httpRequest.responseText );
 					console.log(blogmesh_feeds);
-					//alert( typeof blogmesh_feeds );
-					if( blogmesh_feeds.indexOf( blogmesh_info[ currentTab ].feed_url ) !== -1 ){
+					console.log(blogmesh_info[ currentTab ].feed_url);
+					if( blogmesh_feeds.indexOf( blogmesh_info[ currentTab ].feed_url ) !== -1 || blogmesh_feeds.indexOf( blogmesh_info[ currentTab ]['application/rss+xml'] ) !== -1 ){
 						sendMessageToPopup( { subscribed: true } );
+					} else {
+						sendMessageToPopup( { subscribed: false } );
 					}
 				} else {
 					console.log( httpRequest.responseText );
