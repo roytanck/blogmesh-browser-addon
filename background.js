@@ -27,8 +27,6 @@ var blogmesh_feeds = null;
 chrome.runtime.onMessage.addListener(
 	function( request, sender, sendResponse ){
 
-		//console.log( sender.tab ? "from a content script:" + sender.tab.url : "from the extension" );
-
 		switch( request.message ){
 
 			case 'content_blogmesh_info':
@@ -61,7 +59,7 @@ chrome.runtime.onMessage.addListener(
 
 			case 'blogmesh_check_subscribed':
 				console.log( 'Checking if subscribed to: ' + request.feed_url );
-				blogmeshGetFeeds();
+				blogmeshGetFeeds( request.feed_url );
 				sendResponse( { farewell: 'okay' } );
 				break;
 
@@ -72,14 +70,12 @@ chrome.runtime.onMessage.addListener(
 
 // listen for tab changes to update the ID
 chrome.tabs.onActivated.addListener(function(activeInfo) {
-	console.log( 'Tab switch: ' + activeInfo.tabId );
+	//console.log( 'Tab switch: ' + activeInfo.tabId );
 	currentTab = parseInt( activeInfo.tabId );
 });
 
 
 var blogmeshSubscribe = function( info ){
-	console.log('blogmeshSubscribe');
-
 
 	chrome.storage.sync.get({
 		api_url: 'https://',
@@ -118,7 +114,6 @@ var blogmeshSubscribe = function( info ){
 
 
 var blogmeshUnsubscribe = function( info ){
-	console.log('blogmeshUnsubscribe');
 
 	chrome.storage.sync.get({
 		api_url: 'https://',
@@ -153,8 +148,7 @@ var blogmeshUnsubscribe = function( info ){
 
 
 
-var blogmeshGetFeeds = function(){
-	console.log('blogmeshGetFeeds');
+var blogmeshGetFeeds = function( feed_url ){
 
 	chrome.storage.sync.get({
 		api_url: 'https://',
@@ -170,15 +164,18 @@ var blogmeshGetFeeds = function(){
 		httpRequest.onreadystatechange = function(){
 			if( httpRequest.readyState === XMLHttpRequest.DONE ){
 				if( httpRequest.status === 200 ){
+					// parse the RSS feed list returned by our own blogmesh site
 					blogmesh_feeds = JSON.parse( httpRequest.responseText );
-					console.log(blogmesh_feeds);
-					console.log(blogmesh_info[ currentTab ].feed_url);
-					if( blogmesh_feeds.indexOf( blogmesh_info[ currentTab ].feed_url ) !== -1 || blogmesh_feeds.indexOf( blogmesh_info[ currentTab ]['application/rss+xml'] ) !== -1 ){
+					// check if the feed_url is in the array
+					if( blogmesh_feeds.indexOf( feed_url ) ){
+						// subscribed, so return true
 						sendMessageToPopup( { subscribed: true } );
 					} else {
+						// not currently subscribed, so return false
 						sendMessageToPopup( { subscribed: false } );
 					}
 				} else {
+					// log errors
 					console.log( httpRequest.responseText );
 					alert('There was a problem with the request.');
 				}

@@ -6,27 +6,31 @@ var info = null;
 // request the blogmesh info about this page
 chrome.runtime.sendMessage( { message: 'return_blogmesh_info' }, function(response) {
 	info = response.blogmesh_info;
-	console.log( response.blogmesh_info );
-	updateInfo( response.blogmesh_info );
+	if( info != undefined ){
+		console.log( response.blogmesh_info );
+		updateInfo( response.blogmesh_info );
+	} else {
+		$('#message').html('Please reload this tab to refresh Blogmesh information.');
+		return;
+	}
 });
 
 function updateInfo( info ){
-
+console.log(info);
 	if( !info ){
 		$('#message').html('Sorry, this is not a Blogmesh site.');
 		return;
 	}
 
-	// display the site's name
-	//$('#name').show().html( info.name );
-
+	// check if a blogmesh feed url is available
 	if( info.feed_url ){
-		$('#follow').removeAttr('disabled'); //.disabled = false;
+		$('#follow').removeAttr('disabled');
 		$('#message').html('This is a Blogmesh site!');
-		/*feed_url = info.feed_url;*/
 	} else if( info['application/rss+xml'] ){
-		$('#follow').removeAttr('disabled'); //.disabled = false;
+		// an RSS fee was found, so enable the button
+		$('#follow').removeAttr('disabled');
 		$('#message').html('This site offers an RSS feed!');
+		// overwrite the empty blogmesh feed url with the RSS one
 		info.feed_url = info['application/rss+xml'];
 	}
 
@@ -56,7 +60,7 @@ $('#unfollow').click( function(e){
 
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
-		console.log(request);
+		//console.log(request);
 		if( request.subscribed == true ){
 			$('#follow').hide();
 			$('#unfollow').show();
