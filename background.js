@@ -167,7 +167,7 @@ var blogmeshGetFeeds = function( feed_url ){
 					// parse the RSS feed list returned by our own blogmesh site
 					blogmesh_feeds = JSON.parse( httpRequest.responseText );
 					// check if the feed_url is in the array
-					if( blogmesh_feeds.indexOf( feed_url ) ){
+					if( blogmesh_feeds.indexOf( feed_url ) !== -1 ){
 						// subscribed, so return true
 						sendMessageToPopup( { subscribed: true } );
 					} else {
