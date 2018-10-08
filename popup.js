@@ -16,7 +16,8 @@ chrome.runtime.sendMessage( { message: 'return_blogmesh_info' }, function(respon
 });
 
 function updateInfo( info ){
-console.log(info);
+
+	// check if there's a valid info object
 	if( !info ){
 		$('#message').html('Sorry, this is not a Blogmesh site.');
 		return;
@@ -27,11 +28,15 @@ console.log(info);
 		$('#follow').removeAttr('disabled');
 		$('#message').html('This is a Blogmesh site!');
 	} else if( info['application/rss+xml'] ){
-		// an RSS fee was found, so enable the button
+		// an RSS feed was found, so enable the button
 		$('#follow').removeAttr('disabled');
 		$('#message').html('This site offers an RSS feed!');
-		// overwrite the empty blogmesh feed url with the RSS one
+		// overwrite the empty blogmesh feed url in the info object with the RSS one
 		info.feed_url = info['application/rss+xml'];
+	} else {
+		// no info found at all, show a message
+		$('#message').html('Sorry, this is not a Blogmesh site.');
+		return;
 	}
 
 	// check if we're currently subscribed to this feed
